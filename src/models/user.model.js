@@ -25,10 +25,11 @@ var userSchema = new Schema({
     },
     avatar: {
         type: String, //cloudinary url
-        required: true,
+        default: "https://res.cloudinary.com/dnfmwwo76/image/upload/fl_preserve_transparency/v1739292614/nlda2l8kzbuotk0cnmna.jpg?_s=public-apps"
     },
     coverImage: {
-        type: String //cloudinary image
+        type: String, //cloudinary image
+        default: "https://res.cloudinary.com/dnfmwwo76/image/upload/fl_preserve_transparency/v1739468141/coverImage_l8tw1d.jpg?_s=public-apps"
     },
     watchHistory: [
         {

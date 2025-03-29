@@ -35,6 +35,27 @@ const toggleVideoLike = asyncHandler(async (req, res) => {
     .json(new apiResponse(200, videoLiked, videoLiked? "Video has successfully been liked" : "User's like in video has successfully been removed"));
 });
 
+const getVideoLikedStatus = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+  // console.log(videoId);
+  const video = Video.findById(videoId);
+  if (!video) throw new apiError(400, "No such video exists.");
+
+  let videoLiked;
+  const isLiked = await Like.findOne({
+    video: videoId,
+    likedBy: req.user?._id,
+  });
+  if (!isLiked) {
+    videoLiked = false;
+  } else {
+    videoLiked = true;
+  }
+  return res
+  .status(200)
+  .json(new apiResponse(200, videoLiked));
+});
+
 const toggleCommentLike = asyncHandler(async (req, res) => {
   const { commentId } = req.params;
   const comment  = await Comment.findById(commentId);
@@ -117,4 +138,4 @@ const getLikedVideos = asyncHandler(async (req, res) => {
     return res.status(200).json(new apiResponse(200, likedVideos, "Liked videos fetched successfully"));
   });
 
-export { toggleCommentLike, toggleTweetLike, toggleVideoLike, getLikedVideos };
+export { toggleCommentLike, toggleTweetLike, toggleVideoLike, getLikedVideos, getVideoLikedStatus };

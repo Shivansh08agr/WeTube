@@ -134,4 +134,21 @@ const getSubscribedChannels = asyncHandler(async (req, res) => {
     );
 });
 
-export { toggleSubscription, getUserChannelSubscribers, getSubscribedChannels };
+const getChannelSubscribedStatus = asyncHandler(async (req, res) => {
+  const { channelId } = req.params;
+
+  const channel = await User.findById(channelId);
+  if (!channel) throw new apiError(400, "No such channel exists.");
+
+  const isChannelSubscribed = await Subscription.findOne({
+    subscriber: req.user?._id,
+    channel: channelId,
+  });
+
+  const channelSubscribed = !!isChannelSubscribed;
+
+  return res.status(200).json(new apiResponse(200, channelSubscribed));
+});
+
+
+export { toggleSubscription, getUserChannelSubscribers, getSubscribedChannels, getChannelSubscribedStatus };

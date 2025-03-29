@@ -5,7 +5,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
 
-router.route("/:videoId").get(verifyJWT,getVideoComments);
+router.route("/:videoId").get(getVideoComments);
 
 router.route('/add-comment/:videoId').post(
     verifyJWT,

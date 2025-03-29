@@ -45,8 +45,8 @@ router.route("/update-account").post(verifyJWT,  upload.none(), updateAccountDet
 router.route("")
 
 router.route("/avatar").patch(
-  verifyJWT,
   upload.single("avatar"),
+  verifyJWT,
   updateAvatar
 );
 

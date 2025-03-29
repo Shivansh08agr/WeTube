@@ -51,8 +51,9 @@ const registerUser = asyncHandler(async (req, res) => {
   if (existedUser) {
     throw new apiError(409, "User with email or username already exists");
   }
+
   // check for images, avatar
-  let avatarLocalImages = req.files?.avatar[0]?.path;
+  let avatarLocalImages = req.files?.avatar?.[0]?.path;
   // const coverImageLocalImages = req.files?.coverImage[0]?.path; it will not work because coverImage is not required and it may return undefined which we can't work with
 
   let coverImageLocalImages;
@@ -61,21 +62,24 @@ const registerUser = asyncHandler(async (req, res) => {
     Array.isArray(req.files.coverImage) &&
     req.files.coverImage.length > 0
   ) {
-    coverImageLocalImages = req.files?.coverImage[0]?.path;
+    coverImageLocalImages = req?.files?.coverImage[0]?.path;
   }
 
   // console.log(req.files);
-  if (!avatarLocalImages) throw new apiError(400, "Avatar file is required");
+  let avatar;
+  if (avatarLocalImages) avatar = await uploadOnCloudinary(avatarLocalImages);
 
   // store them in cloudinary
-  const avatar = await uploadOnCloudinary(avatarLocalImages);
-  const coverImage = await uploadOnCloudinary(coverImageLocalImages);
-  if (!avatar) throw new apiError(500, "An error occured while uploading the file.");
+  let coverImage;
+  if(coverImageLocalImages){
+    coverImage = await uploadOnCloudinary(coverImageLocalImages);
+  }
+  // if (!avatar) throw new apiError(500, "An error occured while uploading the file.");
   // create users object: create entry in DB
   const user = await User.create({
     fullName,
-    avatar: avatar.url,
-    coverImage: coverImage?.url || "",
+    avatar: avatar?.url || "https://res.cloudinary.com/dnfmwwo76/image/upload/fl_preserve_transparency/v1739292614/nlda2l8kzbuotk0cnmna.jpg?_s=public-apps",
+    coverImage: coverImage?.url || "https://res.cloudinary.com/dnfmwwo76/image/upload/fl_preserve_transparency/v1739468141/coverImage_l8tw1d.jpg?_s=public-apps",
     email,
     password,
     username: username.toLowerCase(),
@@ -252,7 +256,8 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 });
 
 const updateAvatar = asyncHandler(async (req, res) => {
-  const avatarLocalPath = req.files?.avatar[0].path;
+  // console.log(req?.file?.path);
+  const avatarLocalPath = req.file?.path;
 
   if (!avatarLocalPath) {
     return res
@@ -261,7 +266,7 @@ const updateAvatar = asyncHandler(async (req, res) => {
   }
 
   if (req.user?.avatar) {
-    await deleteFromCloudinary(req.user?.avatar);
+    await deleteFromCloudinary(req?.user?.avatar);
   }
 
   const avatar = await uploadOnCloudinary(avatarLocalPath);
@@ -292,7 +297,7 @@ const updateAvatar = asyncHandler(async (req, res) => {
 });
 
 const updateCoverImage = asyncHandler(async (req, res) => {
-  const coverImageLocalPath = req.files?.avatar[0].path;
+  const coverImageLocalPath = req?.file?.path;
 
   if (!coverImageLocalPath) {
     return res

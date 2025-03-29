@@ -31,7 +31,8 @@ const getAllVideos = asyncHandler(async (req, res) => {
   const videos = await Video.find(videoQuery)
   .sort(sortCriteria)
   .skip((page - 1) * limit)
-  .limit(limit);
+  .limit(limit)
+  .populate('owner', 'username avatar subsribersCount');
   
   if (!videos) {
       throw new apiError(400, "error while fetching all videos")
@@ -94,7 +95,7 @@ const getVideoById = asyncHandler(async (req, res) => {
   const { videoId } = req.params;
 
   if (!videoId) throw new apiError(400, "No video Id was found.");
-  const video = await Video.findById(videoId);
+  const video = await Video.findById(videoId).populate('owner', 'username avatar');
   console.log(video);
   if (video=== null) throw new apiError(400, "Invalid video Id");
 

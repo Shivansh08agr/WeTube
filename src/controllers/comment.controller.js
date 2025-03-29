@@ -40,7 +40,7 @@ const getVideoComments = asyncHandler(async(req,res)=>{
       throw new apiError(404,"comments not found")
   }
 
-  return res.status(200).json(new apiResponse(200,comments,"comments fetched successfully"))
+  return res.status(200).json(new apiResponse(200,comments.reverse(),"comments fetched successfully"))
 })
 
 const addComment = asyncHandler(async (req, res) => {
