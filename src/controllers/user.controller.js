@@ -409,6 +409,30 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
     );
 });
 
+const addToWatchHistory = asyncHandler(async (req, res) => {
+  const { videoId } = req.body;
+
+  if (!videoId) {
+    throw new apiError(400, "Video ID is required");
+  }
+
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $addToSet: { watchHistory: videoId }, // Prevent duplicate entries
+    },
+    { new: true }
+  );
+
+  if (!user) {
+    throw new apiError(404, "User not found");
+  }
+
+  return res
+    .status(200)
+    .json(new apiResponse(200, {}, "Video added to watch history"));
+});
+
 const getWatchHistory = asyncHandler(async (req, res) => {
   const user = await User.aggregate([
     {
@@ -475,4 +499,5 @@ export {
   updateCoverImage,
   getUserChannelProfile,
   getWatchHistory,
+  addToWatchHistory
 };

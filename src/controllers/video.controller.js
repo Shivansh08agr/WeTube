@@ -6,6 +6,28 @@ import { apiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { deleteFromCloudinary, uploadOnCloudinary } from "../utils/cloudinary.js";
 
+const getUserUploadedVideos = asyncHandler(async (req, res) => {
+  const userId = req.user?._id;
+
+  if (!userId) {
+    throw new apiError(400, "User ID is required");
+  }
+
+  const videos = await Video.find({ owner: userId })
+    .populate("owner", "username avatar subscribersCount")
+    .sort({ createdAt: -1 }); // Sort by newest first
+
+  if (!videos || videos.length === 0) {
+    return res
+      .status(200)
+      .json(new apiResponse(200, [], "No videos uploaded by this user"));
+  }
+
+  return res
+    .status(200)
+    .json(new apiResponse(200, videos, "User uploaded videos fetched successfully"));
+});
+
 const getAllVideos = asyncHandler(async (req, res) => {
   //**//
   const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
@@ -67,6 +89,7 @@ const publishAVideo = asyncHandler(async (req, res) => {
     thumbnailLocalField = req.files.thumbnail[0]?.path;
   }
 
+  console.log(req.files);
   const videoPublished = await uploadOnCloudinary(videoLocalField);
   const thumbnail = await uploadOnCloudinary(thumbnailLocalField);
 
@@ -107,13 +130,11 @@ const updateVideo = asyncHandler(async (req, res) => {
   const { title, description } = req.body;
   let thumbnailLocalFile;
   if (
-    req.files &&
-    Array.isArray(req.files.thumbnail) &&
-    req.files.thumbnail.length > 0
+    req.file
   ) {
-    thumbnailLocalFile = req.files?.thumbnail[0].path;
+    thumbnailLocalFile = req.file.path;
   }
-
+console.log(req.file);
   if (!(title || description || thumbnailLocalFile))
     throw new apiError(400, "No changes were made.");
 
@@ -122,7 +143,7 @@ const updateVideo = asyncHandler(async (req, res) => {
   if (!video) {
     throw new apiError(400, "Invalid video Id");
   }
-
+// console.log(thumbnailLocalFile, req.file.thumbnail)
   if (title) video.title = title;
   if (description) video.description = description;
   if (thumbnailLocalFile) {
@@ -130,7 +151,7 @@ const updateVideo = asyncHandler(async (req, res) => {
     if (!thumbnail) throw new apiError(500, "An error occurred while uploading the thumbnail.");
     video.thumbnail = thumbnail.url;
   }
-
+// console.log(video);
   await video.save();
 
   return res
@@ -171,6 +192,46 @@ const togglePublishStatus = asyncHandler(async (req, res) => {
     .json(new apiResponse(200, video, video.isPublished? "Video has been successfully published." : "Video has been successfully unpublished."));
 });
 
+const checkVideoPublishStatus = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+
+  if (!videoId) {
+    throw new apiError(400, "Video ID is required");
+  }
+
+  const video = await Video.findById(videoId).select("isPublished");
+
+  if (!video) {
+    throw new apiError(404, "Video not found");
+  }
+
+  return res
+    .status(200)
+    .json(new apiResponse(200, { isPublished: video.isPublished }, "Video publish status fetched successfully"));
+});
+
+const incrementVideoViews = asyncHandler(async (req, res) => {
+  const { videoId } = req.params;
+
+  if (!videoId) {
+    throw new apiError(400, "Video ID is required");
+  }
+
+  const video = await Video.findByIdAndUpdate(
+    videoId,
+    { $inc: { views: 1 } }, // Increment the views field by 1
+    { new: true } // Return the updated document
+  );
+
+  if (!video) {
+    throw new apiError(404, "Video not found");
+  }
+
+  return res
+    .status(200)
+    .json(new apiResponse(200, video, "Video views incremented successfully"));
+});
+
 export {
   getAllVideos,
   publishAVideo,
@@ -178,4 +239,7 @@ export {
   updateVideo,
   deleteVideo,
   togglePublishStatus,
+  getUserUploadedVideos,
+  incrementVideoViews,
+  checkVideoPublishStatus,
 };
