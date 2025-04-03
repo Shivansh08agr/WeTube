@@ -1,0 +1,116 @@
+.sidebar{
+    display: flex;
+    height: calc(100vh - 8rem);
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem 1rem;
+    min-width: 15%;
+    border-right: 0.5px solid white;
+    overflow-y: auto;
+    background-color: rgb(10, 10, 10);
+    .controls{
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        .collapseSidebar{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0.5rem;
+            cursor: pointer;
+            gap: 1rem;
+            border: 0.25px solid white;
+            border-radius: 0.2rem;
+            p{
+                color: white;
+            }
+        }
+        .navlink{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0.5rem;
+            text-decoration: none;
+            border: 0.25px solid white;
+            gap: 1rem;
+            border-radius: 0.2rem;
+            p{
+                color: white;
+            }
+        }
+    }
+    .settings{
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        .navlink{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0.5rem;
+            text-decoration: none;
+            border: 0.25px solid white;
+            gap: 1rem;
+            border-radius: 0.2rem;
+            p{
+                color: white;
+            }
+        }
+    }
+}
+
+.sidebarShrunk{
+    display: flex;
+    height: calc(100vh - 8rem);
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem 1rem;
+    position: sticky;
+    top: 0;
+    left: 0;
+    border-right: 0.5px solid white;
+    overflow-y: auto;
+    background-color: rgb(10, 10, 10);
+    .controls{
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        .collapseSidebar{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5rem;
+            cursor: pointer;
+            gap: 1rem;
+            border: 0.25px solid white;
+            border-radius: 0.2rem;
+        }
+        .navlink{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5rem;
+            text-decoration: none;
+            border: 0.25px solid white;
+            gap: 1rem;
+            border-radius: 0.2rem;
+        }
+    }
+    .settings{
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        justify-content: center;
+        align-items: center;
+        .navlink{
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0.5rem;
+            text-decoration: none;
+            border: 0.25px solid white;
+            gap: 1rem;
+            border-radius: 0.2rem;
+        }
+    }
+}
