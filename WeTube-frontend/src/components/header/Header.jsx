@@ -42,19 +42,19 @@ const Header = () => {
   return (
     <div className= {styles.header}>
         <div className={styles.logo} onClick={()=> navigate("/")}>
-            <img src="../../../src/assets/logo.svg" alt="logo" draggable = "false"/>
+            <img src="/assets/logo.svg" alt="logo" draggable = "false"/>
             <p>WeTube</p>
         </div>
         <div className= {styles.search}>
             <div className={styles.searchBox}>
-              <img src="../../../src/assets/search-lg.svg" alt="search" draggable = "false"/>
+              <img src="/assets/search-lg.svg" alt="search" draggable = "false"/>
               <input type="text" placeholder='Search'/>
             </div>
         </div>
         <div className={styles.authControls}>
           {APPUSER ? (
             <>
-              <img src={user?.avatar|| "../../../src/assets/loadingAvatar.svg"} alt="avatar" onClick={()=> navigate("/profile")}/>
+              <img src={user?.avatar|| "/assets/loadingAvatar.svg"} alt="avatar" onClick={()=> navigate("/profile")}/>
               <button className={styles.signIn} onClick = {getLogout}>Logout</button>
             </>
           ) : (

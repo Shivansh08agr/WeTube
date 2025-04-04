@@ -209,8 +209,8 @@ const Video = () => {
                 <img
                   src={
                     like
-                      ? "../../../src/assets/like.svg"
-                      : "../../../src/assets/thumbs-up.svg"
+                      ? "/assets/like.svg"
+                      : "/assets/thumbs-up.svg"
                   }
                   alt="like"
                 />
@@ -231,7 +231,7 @@ const Video = () => {
         <h2>Comments</h2>
         <div className={styles.addComment}>
           <input type="text" placeholder="Add a comment" name="content" onChange={(e) => handleChange(e)} value={formData.content}/>
-          <img src="../../../src/assets/send.svg" alt="add comment" onClick={(e) => handleSubmitComment(e)}/>
+          <img src="/assets/send.svg" alt="add comment" onClick={(e) => handleSubmitComment(e)}/>
         </div>
         <div className={styles.viewComments}>
           {(allComments.length == 0) ? (
@@ -261,13 +261,13 @@ const Video = () => {
                       <div>
                         {editingCommentId === comment._id ? (
                           <img
-                            src="../../../src/assets/save.svg"
+                            src="/assets/save.svg"
                             alt="save"
                             onClick={() => handleUpdate(comment._id)}
                           />
                         ) : (
                           <img
-                            src="../../../src/assets/edit.svg"
+                            src="/assets/edit.svg"
                             alt="edit"
                             onClick={() => {
                               setEditingCommentId(comment._id);
@@ -276,7 +276,7 @@ const Video = () => {
                           />
                         )}
                         <img
-                          src="../../../src/assets/delete.svg"
+                          src="/assets/delete.svg"
                           alt="delete"
                           onClick={() => handleDelete(comment._id)}
                         />

@@ -66,7 +66,7 @@ const Register = () => {
     <div className={styles.register}>
       <form onSubmit={handleSubmit}>
         <label htmlFor="file">
-          <img src={avatar.url || "../../../src/assets/defaultAvatar.png"} alt="Avatar" />
+          <img src={avatar.url || "/assets/defaultAvatar.png"} alt="Avatar" />
           Upload an avatar
         </label>
         <input
@@ -104,7 +104,7 @@ const Register = () => {
           onChange={handleChange}
         />
         <label htmlFor="coverImage" className={styles.coverImageDisplay}>
-          <img src={coverImage.url || "../../../src/assets/coverImage.png"} alt="Cover" />
+          <img src={coverImage.url || "/assets/coverImage.png"} alt="Cover" />
           Upload a cover image
         </label>
         <input

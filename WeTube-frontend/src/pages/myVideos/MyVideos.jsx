@@ -100,8 +100,8 @@ const MyVideos = () => {
                   </label>
                 </div>
                 <div className={styles.editNdelete}>
-                  <img src="../../../src/assets/edit.svg" alt="edit" onClick={() => navigate(`videos/edit-video/${video._id}`)}/>
-                  <img src="../../../src/assets/delete.svg" alt="delete" onClick={()=> handleDelete(video._id)}/>
+                  <img src="/assets/edit.svg" alt="edit" onClick={() => navigate(`videos/edit-video/${video._id}`)}/>
+                  <img src="/assets/delete.svg" alt="delete" onClick={()=> handleDelete(video._id)}/>
                 </div>
               </div>
               <img

@@ -162,14 +162,14 @@ const Profile = () => {
           />
           {editingField === "fullName" ? (
             <img
-              src="../../../src/assets/save.svg"
+              src="/assets/save.svg"
               alt="Save"
               onClick={() => handleSave("fullName")}
               className={styles.icon}
             />
           ) : (
             <img
-              src="../../../src/assets/edit.svg"
+              src="/assets/edit.svg"
               alt="Edit"
               onClick={() => setEditingField("fullName")}
               className={styles.icon}
@@ -188,14 +188,14 @@ const Profile = () => {
           />
           {editingField === "username" ? (
             <img
-              src="../../../src/assets/save.svg"
+              src="/assets/save.svg"
               alt="Save"
               onClick={() => handleSave("username")}
               className={styles.icon}
             />
           ) : (
             <img
-              src="../../../src/assets/edit.svg"
+              src="/assets/edit.svg"
               alt="Edit"
               onClick={() => setEditingField("username")}
               className={styles.icon}
@@ -214,14 +214,14 @@ const Profile = () => {
           />
           {editingField === "email" ? (
             <img
-              src="../../../src/assets/save.svg"
+              src="/assets/save.svg"
               alt="Save"
               onClick={() => handleSave("email")}
               className={styles.icon}
             />
           ) : (
             <img
-              src="../../../src/assets/edit.svg"
+              src="/assets/edit.svg"
               alt="Edit"
               onClick={() => setEditingField("email")}
               className={styles.icon}
@@ -247,7 +247,7 @@ const Profile = () => {
                   onChange={handleChange}
                 />
                 <img
-                  src="../../../src/assets/save.svg"
+                  src="/assets/save.svg"
                   alt="Save"
                   onClick={() => handleSave("password")}
                   className={styles.icon}
@@ -265,7 +265,7 @@ const Profile = () => {
                 readOnly
               />
               <img
-                src="../../../src/assets/edit.svg"
+                src="/assets/edit.svg"
                 alt="Edit"
                 onClick={() => setEditingField("password")}
                 className={styles.icon}
